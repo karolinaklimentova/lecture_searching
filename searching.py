@@ -32,42 +32,40 @@ def read_data(file_name, field):
     return data[field]
 
 
-def pattern_search(sequence, pattern):
+def binary_search(numbers, target):
     """
-    Performs pattern search on a DNA sequence to find positions of the target pattern.
-    :param sequence: (str) DNA sequence to search
-    :param pattern: (str) target pattern to search for
-    :return: (set) set containing positions of the target pattern
+    Performs binary search on an ordered sequence to find the position of the target number.
+    :param numbers: (list) ordered sequence to search
+    :param target: (int) target number to search for
+    :return: (int) index where the target number is found, None if not found
     """
-    positions = set()
-    pattern_length = len(pattern)
-    sequence_length = len(sequence)
+    left, right = 0, len(numbers) - 1
 
-    i = 0
-    while i <= sequence_length - pattern_length:
-        j = 0
-        while j < pattern_length and sequence[i + j] == pattern[j]:
-            j += 1
-        if j == pattern_length:
-            positions.add(i)
-            i += 1
-        elif j == 0:
-            i += 1
+    while left <= right:
+        mid = (left + right) // 2
+        if numbers[mid] == target:
+            return mid
+        elif numbers[mid] < target:
+            left = mid + 1
         else:
-            i += j
+            right = mid - 1
 
-    return positions
+    return None
 
 
 def main():
-    dna_sequence = read_data("sequential.json", "dna_sequence")
+    ordered_numbers = read_data("sequential.json", "ordered_numbers")
 
-    print("DNA Sequence:", dna_sequence)
+    print("Ordered Numbers:", ordered_numbers)
 
-    target_pattern = input("Enter the pattern to search for: ")
-    result = pattern_search(dna_sequence, target_pattern)
-    print("Result:", result)
+    target_number = int(input("Enter the number to search for: "))
+    result = binary_search(ordered_numbers, target_number)
+    if result is not None:
+        print(f"The target number {target_number} is found at index {result}.")
+    else:
+        print(f"The target number {target_number} is not found in the sequence.")
 
 
 if __name__ == '__main__':
     main()
+
