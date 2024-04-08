@@ -32,30 +32,31 @@ def read_data(file_name, field):
     return data[field]
 
 
-def linear_search(sequence, target):
+def pattern_search(sequence, pattern):
     """
-    Performs linear search on an unordered sequence to find positions and count of a target number.
-    :param sequence: (list) unordered sequence to search
-    :param target: (int) target number to search for
-    :return: (dict) dictionary containing positions and count of the target number
+    Performs pattern search on a DNA sequence to find positions of the target pattern.
+    :param sequence: (str) DNA sequence to search
+    :param pattern: (str) target pattern to search for
+    :return: (set) set containing positions of the target pattern
     """
-    positions = []
-    count = 0
-    for index, number in enumerate(sequence):
-        if number == target:
-            positions.append(index)
-            count += 1
-    return {"positions": positions, "count": count}
+    positions = set()
+    pattern_length = len(pattern)
+    sequence_length = len(sequence)
+
+    for i in range(sequence_length - pattern_length + 1):
+        if sequence[i:i + pattern_length] == pattern:
+            positions.add(i)
+
+    return positions
 
 
 def main():
-    sequential_data = read_data("sequential.json", "unordered_numbers")
+    dna_sequence = read_data("sequential.json", "dna_sequence")
 
-    print("Sequential data:", sequential_data)
+    print("DNA Sequence:", dna_sequence)
 
-    target_number = int(input("Enter the number to search for: "))
-
-    result = linear_search(sequential_data, target_number)
+    target_pattern = input("Enter the pattern to search for: ")
+    result = pattern_search(dna_sequence, target_pattern)
     print("Result:", result)
 
 
