@@ -43,9 +43,18 @@ def pattern_search(sequence, pattern):
     pattern_length = len(pattern)
     sequence_length = len(sequence)
 
-    for i in range(sequence_length - pattern_length + 1):
-        if sequence[i:i + pattern_length] == pattern:
+    i = 0
+    while i <= sequence_length - pattern_length:
+        j = 0
+        while j < pattern_length and sequence[i + j] == pattern[j]:
+            j += 1
+        if j == pattern_length:
             positions.add(i)
+            i += 1
+        elif j == 0:
+            i += 1
+        else:
+            i += j
 
     return positions
 
